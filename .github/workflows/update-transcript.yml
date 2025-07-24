@@ -63,13 +63,3 @@ jobs:
               workflow_id: 'azure-static-web-apps-purple-pond-0cdaaa710.yml',
               ref: 'main'
             });
-
-      - name: Update index.html with App Insights connection string
-        if: steps.commit_changes.outputs.changes_made == 'true'
-        run: |
-          if [ -n "${{ secrets.APP_INSIGHTS_CONNECTION_STRING }}" ]; then
-            sed -i 's|YOUR_CONNECTION_STRING_HERE|${{ secrets.APP_INSIGHTS_CONNECTION_STRING }}|g' index.html
-            git add index.html
-            git commit -m "Update Application Insights connection string" || true
-            git push
-          fi
