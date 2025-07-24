@@ -33,9 +33,16 @@ jobs:
       - name: Update transcript data
         env:
           LOCALE: ${{ vars.LOCALE }}
+          CREDLY_USER: ${{ secrets.CREDLY_USERNAME }}
         run: |
-          python passed_exams.py "${{ secrets.TRANSCRIPT_CODE }}" \
-            --output passed_exams.csv
+          if [ -n "$CREDLY_USER" ]; then
+            python passed_exams.py "${{ secrets.TRANSCRIPT_CODE }}" \
+              --credly-user "$CREDLY_USER" \
+              --output passed_exams.csv
+          else
+            python passed_exams.py "${{ secrets.TRANSCRIPT_CODE }}" \
+              --output passed_exams.csv
+          fi
 
       - name: Commit and push changes
         id: commit_changes

@@ -386,15 +386,21 @@
       const dates = examData.map(exam => exam['Exam Date']);
       const titles = examData.map(exam => exam['Exam Title']);
       const examNumbers = examData.map(exam => exam['Exam Number']);
+      const sources = examData.map(exam => exam['Source'] || 'Microsoft Learn');
 
-      // Numeric indices for color mapping (original gradient)
-      const colorIndices = Array.from({ length: dates.length }, (_, i) => i);
+      // Color by source
+      const colors = sources.map(source => 
+        source === 'Credly' ? '#FF6B35' : '#1f77b4'
+      );
 
-      // Trace definition with original gradient styling
+      // Trace definition
       const trace = {
         x: dates,
         y: titles,
-        customdata: examNumbers,
+        customdata: examNumbers.map((num, i) => ({
+          number: num,
+          source: sources[i]
+        })),
         mode: "markers+lines",
         line: {
           color: 'rgba(116, 165, 245, 0.3)',
@@ -402,10 +408,7 @@
           dash: 'dot'
         },
         marker: {
-          color: colorIndices,
-          colorscale: [[0, "#1f77b4"], [1, "#ff00ff"]],
-          cmin: 0,
-          cmax: dates.length - 1,
+          color: colors,
           size: 14,
           line: {
             color: 'white',
@@ -415,9 +418,10 @@
           showscale: false
         },
         hovertemplate:
-          "<b>%{customdata}</b><br>" +
+          "<b>%{customdata.number}</b><br>" +
           "%{y}<br>" +
           "Passed: %{x|%Y-%m-%d}<br>" +
+          "Source: %{customdata.source}<br>" +
           "<extra></extra>"
       };
 
