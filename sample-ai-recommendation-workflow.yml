@@ -1,0 +1,125 @@
+name: AI Exam Recommendation
+
+on:
+  workflow_dispatch:  # Allow manual triggering
+  schedule:
+    # Run monthly on the 1st at 9 AM UTC
+    - cron: '0 9 1 * *'
+
+jobs:
+  recommend-exam:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai
+
+      - name: Test prerequisites
+        run: |
+          python test_ai_recommender.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get AI exam recommendation
+        id: recommend
+        run: |
+          echo "🤖 Getting AI exam recommendation..."
+          RECOMMENDATION=$(python ai_exam_recommender.py)
+          echo "Raw output: $RECOMMENDATION"
+          
+          # Parse the JSON to extract the exam code
+          EXAM_CODE=$(echo "$RECOMMENDATION" | jq -r '.exam_code')
+          echo "Recommended exam: $EXAM_CODE"
+          
+          # Set outputs for use in other steps
+          echo "recommendation=$RECOMMENDATION" >> $GITHUB_OUTPUT
+          echo "exam_code=$EXAM_CODE" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Display recommendation
+        run: |
+          echo "🎯 AI Exam Recommendation Results"
+          echo "=================================="
+          echo "Full response: ${{ steps.recommend.outputs.recommendation }}"
+          echo "Recommended exam code: ${{ steps.recommend.outputs.exam_code }}"
+          
+          # Create a summary for the workflow
+          echo "## 🤖 AI Exam Recommendation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Recommended next exam:** \`${{ steps.recommend.outputs.exam_code }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Full AI response:**" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.recommend.outputs.recommendation }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+      # Optional: Create an issue with the recommendation
+      - name: Create recommendation issue
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const examCode = '${{ steps.recommend.outputs.exam_code }}';
+            const recommendation = '${{ steps.recommend.outputs.recommendation }}';
+            
+            const title = `🤖 AI Recommendation: Prepare for ${examCode}`;
+            const body = `## AI Exam Recommendation
+            
+The AI recommender suggests focusing on exam **${examCode}** as your next Microsoft certification goal.
+
+### Full Recommendation Details
+\`\`\`json
+${recommendation}
+\`\`\`
+
+### Next Steps
+- [ ] Review the exam objectives for ${examCode}
+- [ ] Check Microsoft Learn paths for this exam
+- [ ] Schedule study time in your calendar
+- [ ] Consider booking the exam
+
+*This recommendation was generated automatically based on your current transcript and technology trends.*`;
+
+            // Check if there's already an open recommendation issue
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: ['ai-recommendation'],
+              per_page: 1
+            });
+
+            if (issues.data.length === 0) {
+              // Create new issue
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['ai-recommendation', 'enhancement']
+              });
+              console.log('Created new recommendation issue');
+            } else {
+              // Update existing issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues.data[0].number,
+                title: title,
+                body: body
+              });
+              console.log('Updated existing recommendation issue');
+            }
