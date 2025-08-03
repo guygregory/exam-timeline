@@ -361,6 +361,8 @@
       
       if (currentDataSource === 'microsoft') {
         document.getElementById('recent-exam').textContent = latestItem ? latestItem['Exam Number'] : '-';
+        // For Microsoft exams, AI recommendation is loaded from partial file, don't override it
+        loadAIRecommendation();
       } else {
         // For badges, show the issuer of the latest badge
         const latestIssuer = latestItem ? latestItem['Issuer'] : '-';
