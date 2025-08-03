@@ -53,6 +53,30 @@
       margin-bottom: 30px;
     }
     
+    .data-source-toggle {
+      margin-top: 15px;
+    }
+    
+    .data-source-toggle label {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-right: 10px;
+    }
+    
+    .data-source-toggle select {
+      padding: 8px 12px;
+      border: 2px solid #ecf0f1;
+      border-radius: 8px;
+      font-size: 14px;
+      background: white;
+      transition: border-color 0.3s ease;
+    }
+    
+    .data-source-toggle select:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+    
     .header h1 {
       color: #2c3e50;
       font-size: 2.5em;
@@ -210,7 +234,14 @@
 <body>
   <div class="dashboard-container">
     <div class="header">
-      <h1>🎓 Microsoft Exam Timeline</h1>
+      <h1 id="dashboard-title">🎓 Microsoft Exam Timeline</h1>
+      <div class="data-source-toggle">
+        <label for="data-source">Data Source:</label>
+        <select id="data-source">
+          <option value="exams">Microsoft Exams</option>
+          <option value="badges">Credly Badges</option>
+        </select>
+      </div>
     </div>
     
     <div class="chart-container">
@@ -236,28 +267,29 @@
     
     <div class="stats-container">
       <div class="stat-card">
-        <div class="stat-number" id="total-exams">0</div>
-        <div class="stat-label">Total Exams Passed</div>
+        <div class="stat-number" id="total-items">0</div>
+        <div class="stat-label" id="total-items-label">Total Exams Passed</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number" id="exam-years">0</div>
-        <div class="stat-label">Years of Certification</div>
+        <div class="stat-number" id="years-span">0</div>
+        <div class="stat-label" id="years-span-label">Years of Certification</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number" id="recent-exam">-</div>
-        <div class="stat-label">Latest Achievement</div>
+        <div class="stat-number" id="latest-item">-</div>
+        <div class="stat-label" id="latest-item-label">Latest Achievement</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number" id="ai-recommendation">-</div>
-        <div class="stat-label">AI Recommendation</div>
+        <div class="stat-number" id="top-category">-</div>
+        <div class="stat-label" id="top-category-label">AI Recommendation</div>
       </div>
     </div>
   </div>
   <script type="text/javascript">
     window.PLOTLYENV = window.PLOTLYENV || {};
 
-    let allExamData = [];
+    let allData = [];
     let filteredData = [];
+    let currentDataSource = 'exams'; // 'exams' or 'badges'
 
     // Function to parse CSV data with robust quoted field handling
     function parseCSV(csvText) {
@@ -306,39 +338,112 @@
       return data;
     }
 
-    // Function to update statistics
+    // Function to update statistics based on current data source
     function updateStats(data) {
+      const totalItems = data.length;
+      
+      if (currentDataSource === 'exams') {
+        updateExamStats(data);
+      } else {
+        updateBadgeStats(data);
+      }
+    }
+
+    // Function to update exam statistics
+    function updateExamStats(data) {
       const totalExams = data.length;
-      const dates = data.map(exam => new Date(exam['Exam Date']));
-      const firstExamDate = new Date(Math.min(...dates));
-      const lastExamDate = new Date(Math.max(...dates));
+      const dates = data.map(item => new Date(item['Exam Date']));
+      const firstDate = new Date(Math.min(...dates));
       const today = new Date();
       
       // Calculate years from first exam to today
-      const yearSpan = today.getFullYear() - firstExamDate.getFullYear();
+      const yearSpan = today.getFullYear() - firstDate.getFullYear();
       
-      const latestExam = data.sort((a, b) => new Date(b['Exam Date']) - new Date(a['Exam Date']))[0];
+      const latestItem = data.sort((a, b) => new Date(b['Exam Date']) - new Date(a['Exam Date']))[0];
       
-      document.getElementById('total-exams').textContent = totalExams;
-      document.getElementById('exam-years').textContent = yearSpan;
-      document.getElementById('recent-exam').textContent = latestExam ? latestExam['Exam Number'] : '-';
+      document.getElementById('total-items').textContent = totalExams;
+      document.getElementById('years-span').textContent = yearSpan;
+      document.getElementById('latest-item').textContent = latestItem ? latestItem['Exam Number'] : '-';
+      
+      // Keep AI recommendation as is for exams
+      // AI recommendation loading is handled separately
     }
 
-    // Function to populate year filter
-    function populateYearFilter(data) {
-      // Year filter removed - no longer needed
+    // Function to update badge statistics
+    function updateBadgeStats(data) {
+      const totalBadges = data.length;
+      const dates = data.map(item => new Date(item['Issue Date']));
+      const firstDate = new Date(Math.min(...dates));
+      const today = new Date();
+      
+      // Calculate years from first badge to today
+      const yearSpan = today.getFullYear() - firstDate.getFullYear();
+      
+      // Get latest issuer
+      const sortedByDate = data.sort((a, b) => new Date(b['Issue Date']) - new Date(a['Issue Date']));
+      const latestIssuer = sortedByDate.length > 0 ? sortedByDate[0]['Issuer'] : '-';
+      
+      // Get top issuer (issuer with most badges)
+      const issuerCounts = {};
+      data.forEach(badge => {
+        const issuer = badge['Issuer'];
+        issuerCounts[issuer] = (issuerCounts[issuer] || 0) + 1;
+      });
+      
+      let topIssuer = '-';
+      let maxCount = 0;
+      for (const [issuer, count] of Object.entries(issuerCounts)) {
+        if (count > maxCount) {
+          maxCount = count;
+          topIssuer = issuer;
+        }
+      }
+      
+      document.getElementById('total-items').textContent = totalBadges;
+      document.getElementById('years-span').textContent = yearSpan;
+      document.getElementById('latest-item').textContent = latestIssuer;
+      document.getElementById('top-category').textContent = topIssuer;
+    }
+
+    // Function to update UI labels based on data source
+    function updateUILabels() {
+      const titleElement = document.getElementById('dashboard-title');
+      const totalLabel = document.getElementById('total-items-label');
+      const yearsLabel = document.getElementById('years-span-label');
+      const latestLabel = document.getElementById('latest-item-label');
+      const topLabel = document.getElementById('top-category-label');
+      
+      if (currentDataSource === 'exams') {
+        titleElement.textContent = '🎓 Microsoft Exam Timeline';
+        totalLabel.textContent = 'Total Exams Passed';
+        yearsLabel.textContent = 'Years of Certification';
+        latestLabel.textContent = 'Latest Achievement';
+        topLabel.textContent = 'AI Recommendation';
+      } else {
+        titleElement.textContent = '🏆 Credly Badge Timeline';
+        totalLabel.textContent = 'Total Badges Earned';
+        yearsLabel.textContent = 'Years of Achievement';
+        latestLabel.textContent = 'Latest Issuer';
+        topLabel.textContent = 'Top Issuer';
+      }
     }
 
     // Function to filter data
     function filterData() {
       const searchTerm = document.getElementById('search-exam').value.toLowerCase();
       
-      filteredData = allExamData.filter(exam => {
-        const matchesSearch = searchTerm === '' || 
-          exam['Exam Title'].toLowerCase().includes(searchTerm) ||
-          exam['Exam Number'].toLowerCase().includes(searchTerm);
-        
-        return matchesSearch;
+      filteredData = allData.filter(item => {
+        if (currentDataSource === 'exams') {
+          const matchesSearch = searchTerm === '' || 
+            item['Exam Title'].toLowerCase().includes(searchTerm) ||
+            item['Exam Number'].toLowerCase().includes(searchTerm);
+          return matchesSearch;
+        } else {
+          const matchesSearch = searchTerm === '' || 
+            item['Badge Title'].toLowerCase().includes(searchTerm) ||
+            item['Issuer'].toLowerCase().includes(searchTerm);
+          return matchesSearch;
+        }
       });
       
       const viewMode = document.getElementById('view-mode').value;
@@ -350,18 +455,27 @@
     }
 
     // Function to create the timeline plot
-    function createTimelinePlot(examData) {
-      if (examData.length === 0) {
-        document.getElementById('exam-timeline').innerHTML = '<div style="text-align: center; padding: 50px; color: #7f8c8d;">No exams found matching your criteria.</div>';
+    function createTimelinePlot(data) {
+      if (data.length === 0) {
+        document.getElementById('exam-timeline').innerHTML = '<div style="text-align: center; padding: 50px; color: #7f8c8d;">No items found matching your criteria.</div>';
         return;
       }
 
-      // Sort by date to ensure proper chronological order
-      examData.sort((a, b) => new Date(a['Exam Date']) - new Date(b['Exam Date']));
+      let dates, titles, numbers;
       
-      const dates = examData.map(exam => exam['Exam Date']);
-      const titles = examData.map(exam => exam['Exam Title']);
-      const examNumbers = examData.map(exam => exam['Exam Number']);
+      if (currentDataSource === 'exams') {
+        // Sort by date to ensure proper chronological order
+        data.sort((a, b) => new Date(a['Exam Date']) - new Date(b['Exam Date']));
+        dates = data.map(item => item['Exam Date']);
+        titles = data.map(item => item['Exam Title']);
+        numbers = data.map(item => item['Exam Number']);
+      } else {
+        // Sort by date to ensure proper chronological order
+        data.sort((a, b) => new Date(a['Issue Date']) - new Date(b['Issue Date']));
+        dates = data.map(item => item['Issue Date']);
+        titles = data.map(item => item['Badge Title']);
+        numbers = data.map(item => item['Issuer']);
+      }
 
       // Numeric indices for color mapping (original gradient)
       const colorIndices = Array.from({ length: dates.length }, (_, i) => i);
@@ -370,7 +484,7 @@
       const trace = {
         x: dates,
         y: titles,
-        customdata: examNumbers,
+        customdata: numbers,
         mode: "markers+lines",
         line: {
           color: 'rgba(116, 165, 245, 0.3)',
@@ -390,10 +504,14 @@
           opacity: 0.8,
           showscale: false
         },
-        hovertemplate:
+        hovertemplate: currentDataSource === 'exams' ?
           "<b>%{customdata}</b><br>" +
           "%{y}<br>" +
           "Passed: %{x|%Y-%m-%d}<br>" +
+          "<extra></extra>" :
+          "<b>%{customdata}</b><br>" +
+          "%{y}<br>" +
+          "Earned: %{x|%Y-%m-%d}<br>" +
           "<extra></extra>"
       };
 
@@ -404,7 +522,7 @@
         paper_bgcolor: 'rgba(0,0,0,0)',
         xaxis: {
           title: {
-            text: "Date Passed",
+            text: currentDataSource === 'exams' ? "Date Passed" : "Date Earned",
             font: { size: 14, color: '#2c3e50' }
           },
           type: "date",
@@ -443,21 +561,26 @@
         Plotly.newPlot("exam-timeline", [trace], layout, config);
       } else {
         // Fallback display when Plotly is not available
+        const itemName = currentDataSource === 'exams' ? 'exams' : 'badges';
+        const itemField = currentDataSource === 'exams' ? 'Exam Title' : 'Badge Title';
+        const numberField = currentDataSource === 'exams' ? 'Exam Number' : 'Issuer';
+        const dateField = currentDataSource === 'exams' ? 'Exam Date' : 'Issue Date';
+        
         document.getElementById('exam-timeline').innerHTML = `
           <div style="padding: 20px; background: #f8f9fa; border-radius: 10px; border: 1px solid #dee2e6;">
-            <h3 style="color: #495057; margin-bottom: 15px;">📊 Chart Data Ready (${examData.length} exams)</h3>
+            <h3 style="color: #495057; margin-bottom: 15px;">📊 Chart Data Ready (${data.length} ${itemName})</h3>
             <p style="color: #6c757d; margin-bottom: 15px;">Chart visualization temporarily unavailable. Here's the data that would be displayed:</p>
             <div style="max-height: 400px; overflow-y: auto; background: white; padding: 15px; border-radius: 5px; border: 1px solid #e9ecef;">
-              ${examData.map((exam, i) => `
+              ${data.map((item, i) => `
                 <div style="padding: 8px; border-bottom: 1px solid #f1f3f4; display: flex; justify-content: space-between;">
-                  <div style="flex: 1; font-weight: 500;">${exam['Exam Title']}</div>
-                  <div style="margin: 0 15px; color: #6c757d;">${exam['Exam Number']}</div>
-                  <div style="color: #6c757d;">${exam['Exam Date']}</div>
+                  <div style="flex: 1; font-weight: 500;">${item[itemField]}</div>
+                  <div style="margin: 0 15px; color: #6c757d;">${item[numberField]}</div>
+                  <div style="color: #6c757d;">${item[dateField]}</div>
                 </div>
               `).join('')}
             </div>
             <p style="color: #6c757d; margin-top: 15px; font-size: 14px;">
-              All ${examData.length} exams are parsed and ready for visualization.
+              All ${data.length} ${itemName} are parsed and ready for visualization.
             </p>
           </div>
         `;
@@ -465,16 +588,18 @@
     }
 
     // Function to create yearly summary plot
-    function createYearlyPlot(examData) {
-      if (examData.length === 0) {
-        document.getElementById('exam-timeline').innerHTML = '<div style="text-align: center; padding: 50px; color: #7f8c8d;">No exams found matching your criteria.</div>';
+    function createYearlyPlot(data) {
+      if (data.length === 0) {
+        document.getElementById('exam-timeline').innerHTML = '<div style="text-align: center; padding: 50px; color: #7f8c8d;">No items found matching your criteria.</div>';
         return;
       }
 
       // Group by year
       const yearlyData = {};
-      examData.forEach(exam => {
-        const year = new Date(exam['Exam Date']).getFullYear();
+      const dateField = currentDataSource === 'exams' ? 'Exam Date' : 'Issue Date';
+      
+      data.forEach(item => {
+        const year = new Date(item[dateField]).getFullYear();
         if (!yearlyData[year]) {
           yearlyData[year] = 0;
         }
@@ -483,6 +608,7 @@
 
       const years = Object.keys(yearlyData).sort();
       const counts = years.map(year => yearlyData[year]);
+      const itemName = currentDataSource === 'exams' ? 'Exams' : 'Badges';
 
       const trace = {
         x: years,
@@ -495,7 +621,7 @@
             width: 2
           }
         },
-        hovertemplate: "Year: %{x}<br>Exams Passed: %{y}<extra></extra>"
+        hovertemplate: `Year: %{x}<br>${itemName} ${currentDataSource === 'exams' ? 'Passed' : 'Earned'}: %{y}<extra></extra>`
       };
 
       const layout = {
@@ -508,7 +634,7 @@
           gridcolor: 'rgba(0,0,0,0.1)'
         },
         yaxis: {
-          title: "Number of Exams Passed",
+          title: `Number of ${itemName} ${currentDataSource === 'exams' ? 'Passed' : 'Earned'}`,
           font: { size: 14, color: '#2c3e50' },
           gridcolor: 'rgba(0,0,0,0.1)'
         }
@@ -524,39 +650,49 @@
       Plotly.newPlot("exam-timeline", [trace], layout, config);
     }
 
-    // Load and process CSV data
-    async function loadExamData() {
+    // Function to switch data source
+    async function switchDataSource(newSource) {
+      currentDataSource = newSource;
+      updateUILabels();
+      
       try {
-        const response = await fetch('passed_exams.csv');
+        const filename = currentDataSource === 'exams' ? 'passed_exams.csv' : 'credly_badges.csv';
+        const response = await fetch(filename);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const csvText = await response.text();
-        allExamData = parseCSV(csvText);
-        filteredData = [...allExamData];
+        allData = parseCSV(csvText);
+        filteredData = [...allData];
         
-        updateStats(allExamData);
-        populateYearFilter(allExamData);
+        updateStats(allData);
         
         // Wait a bit for Plotly to load if it was loaded asynchronously
         setTimeout(() => {
-          createTimelinePlot(filteredData);
-        }, 500);
+          filterData(); // This will create the appropriate plot
+        }, 100);
         
       } catch (error) {
-        console.error('Error loading exam data:', error);
+        console.error(`Error loading ${currentDataSource} data:`, error);
         
         // Display error message to user
         const errorDiv = document.getElementById('exam-timeline');
+        const filename = currentDataSource === 'exams' ? 'passed_exams.csv' : 'credly_badges.csv';
         errorDiv.innerHTML = `
           <div style="padding: 40px; text-align: center; color: #e74c3c; background: #fdf2f2; border-radius: 10px; border: 1px solid #f5c6cb;">
             <h3 style="margin-bottom: 15px;">📋 Error Loading Data</h3>
-            <p style="margin-bottom: 10px;">Could not load exam data from passed_exams.csv</p>
+            <p style="margin-bottom: 10px;">Could not load data from ${filename}</p>
             <p style="margin-bottom: 10px; font-weight: bold;">Error: ${error.message}</p>
             <p>Please ensure the CSV file is in the same directory as this HTML file.</p>
           </div>
         `;
       }
+    }
+
+    // Load and process CSV data
+    async function loadInitialData() {
+      // Start with exams by default
+      await switchDataSource('exams');
     }
 
     // Function to load timestamp from partial file
@@ -588,8 +724,8 @@
         const response = await fetch('partials/ai-recommendation.html');
         if (response.ok) {
           const recommendationHtml = await response.text();
-          const recommendationElement = document.getElementById('ai-recommendation');
-          if (recommendationElement) {
+          const recommendationElement = document.getElementById('top-category');
+          if (recommendationElement && currentDataSource === 'exams') {
             // Extract the content from the fetched HTML
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = recommendationHtml;
@@ -607,11 +743,18 @@
 
     // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
-      loadExamData();
+      loadInitialData();
       loadTimestamp();
-      loadAIRecommendation();
       
       // Add event listeners for controls
+      document.getElementById('data-source').addEventListener('change', function(e) {
+        switchDataSource(e.target.value);
+        // Only load AI recommendation for exams
+        if (e.target.value === 'exams') {
+          loadAIRecommendation();
+        }
+      });
+      
       document.getElementById('view-mode').addEventListener('change', filterData);
       document.getElementById('search-exam').addEventListener('input', filterData);
     });
