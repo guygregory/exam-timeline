@@ -40,3 +40,10 @@ venv.bak/
 # OS
 .DS_Store
 Thumbs.db
+
+# Node.js
+node_modules/
+
+# Temporary files
+*.tmp
+*.temp

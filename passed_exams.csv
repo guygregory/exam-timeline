@@ -1,29 +1,34 @@
 Exam Title,Exam Number,Exam Date
-GitHub Copilot,GH-300,2025-07-24
-Configuring Windows Server Hybrid Advanced Services,AZ-801,2023-10-25
-Microsoft Azure Administrator,AZ-104,2022-12-23
-Microsoft Azure Security Technologies,AZ-500,2022-12-22
-Designing and Implementing Microsoft DevOps Solutions,AZ-400,2022-09-23
-Microsoft Identity and Access Administrator,SC-300,2021-08-11
-Technology Literacy for Educators,62-193,2021-07-28
-"Microsoft Security, Compliance, and Identity Fundamentals",SC-900,2021-03-03
-Microsoft Azure Data Fundamentals,DP-900,2020-07-15
-Microsoft Azure AI Fundamentals,AI-900,2020-07-09
-Microsoft Power Platform Fundamentals,PL-900,2020-02-21
+GitHub Foundations,GH-900,2025-07-21
+Designing and Implementing a Microsoft Azure AI Solution,AI-102,2024-08-02
+Microsoft Dynamics 365 Fundamentals (CRM),MB-910,2023-02-24
+"Microsoft Security, Compliance, and Identity Fundamentals",SC-900,2021-12-16
+Microsoft Azure Data Fundamentals,DP-900,2021-07-09
+Microsoft Azure Administrator,AZ-104,2021-02-17
+Microsoft Azure AI Fundamentals,AI-900,2021-02-15
+Introduction to Programming Using Python,98-381,2021-02-02
+Microsoft Dynamics 365 Fundamentals,MB-901,2020-06-02
+Microsoft Power Platform Fundamentals,PL-900,2020-03-20
 Microsoft 365 Fundamentals,MS-900,2019-02-06
-Microsoft Azure Administrator Certification Transition,AZ-102,2019-01-25
-Microsoft Azure Solutions Architect Certification Transition,AZ-302,2019-01-08
-Microsoft Azure Fundamentals,AZ-900,2019-01-04
-Architecting Microsoft Azure Solutions,535,2018-11-29
-Microsoft Azure Architect Technologies,AZ-300,2018-11-13
-Implementing Microsoft Azure Infrastructure Solutions,533,2018-04-17
-Designing and Implementing a Server Infrastructure,413,2014-12-15
-Upgrading Your Skills to MCSA Windows Server 2012,417,2014-09-22
-Administering Microsoft SQL Server 2012/2014 Databases,462,2013-10-04
-"Pro: Windows Server 2008, Enterprise Administrator",647,2013-07-10
-"TS: Microsoft Exchange Server 2010, Configuring",662,2012-11-30
-"TS: Windows Server 2008 Applications Infrastructure, Configuring",643,2012-09-27
-"Windows Server 2008 Active Directory, Configuring",640,2012-08-03
-"Windows Server 2008 Network Infrastructure, Configuring",642,2012-04-27
-"TS: Windows 7, Configuring",680,2012-02-10
-"PRO: Windows 7, Enterprise Desktop Administrator",686,2011-10-26
+Microsoft Azure Fundamentals,AZ-900,2019-01-03
+Microsoft Azure Administrator Certification Transition,AZ-102,2018-08-03
+Implementing Microsoft Azure Infrastructure Solutions,533,2017-05-24
+Recertification for MCSE: Private Cloud,981,2016-01-25
+Enabling Office 365 Services,347,2014-12-06
+Managing Office 365 Identities and Requirements,346,2014-12-06
+Upgrading Your Skills to MCSA Windows Server 2012,417,2014-01-29
+Monitoring and Operating a Private Cloud with System Center 2012,246,2013-01-26
+Administering Office 365 for Small Business,324,2012-12-08
+"TS: Windows Server 2008 R2, Server Virtualization",659,2012-02-25
+"Pro: Windows Server 2008, Server Administrator",646,2012-01-14
+"TS:  Upgrading your MCSA on Windows Server 2003 to Windows Server 2008, Technology Specialist",648,2011-12-19
+"TS: Windows 7, Configuring",680,2010-04-26
+"Implementing, Managing, and Maintaining a Microsoft Windows Server 2003 Network Infrastructure",291,2009-03-30
+Managing and Maintaining a Microsoft Windows Server 2003 Environment,290,2009-02-10
+"TS: Windows Small Business Server 2008, Configuring",653,2008-09-01
+"Windows Server 2008 Network Infrastructure, Configuring",642,2008-06-30
+"TS: Microsoft Windows Mobile Designing, Implementing, and Managing",500,2007-12-07
+Upgrading your MCDST Certification to MCITP Enterprise Support,621,2007-07-02
+"Designing, Deploying and Managing a Network Solution for the Small and Medium-sized Business",282,2006-03-24
+Supporting Users and Troubleshooting Desktop Applications on a Microsoft Windows XP Operating System,272,2005-12-02
+Supporting Users and Troubleshooting a Microsoft Windows XP Operating System,271,2004-12-09
