@@ -1,45 +1,49 @@
 Badge Title,Issuer,Badge Date
 Microsoft Global Hackathon 2025,The Microsoft Garage,2025-07-30
-GPS AI Discovery Cards Workshop,Microsoft Global Partner Solutions (GPS),2025-01-14
-Microsoft Global Hackathon 2024,The Microsoft Garage,2024-08-01
-STEM Ambassador 50 hours of engagement 2023/2024,STEM Learning,2024-07-30
-Microsoft Change Agent Nonprofit Champion Badge,Microsoft Philanthropies: Employee Engagement and Disaster Response,2024-06-26
-GPS Partner Conversation Proficiency for AI,Microsoft Customer Service and Support,2024-06-05
-Copilot for M365 Achiever Badge - Foundational,Microsoft AI Business Solutions Enablement,2024-01-01
-STEM Ambassador 15 hours of engagement 2023/2024,STEM Learning,2023-12-30
-Learn contributor 2023Q3,Microsoft MVP and Student Ambassadors Communities,2023-10-23
-STEM Ambassador 30 hours of engagement 2022/2023,STEM Learning,2023-07-30
-Microsoft Certified Trainer 2023-2024,Microsoft,2023-06-24
-STEM Ambassador 15 hours of engagement 2022/2023,STEM Learning,2023-03-30
-Microsoft Certified: Dynamics 365 Fundamentals (CRM),Microsoft,2023-02-24
+Just Another Kusto Hacker,Microsoft Azure Data Explorer,2025-04-04
+HashiCorp Certified: Terraform Associate (003),HashiCorp,2025-02-12
+HashiCorp Ambassador 2025,HashiCorp Community,2025-01-31
+Jumpstart Drops contributor Level 1,Arc Jumpstart,2024-11-18
+Instructor Recognition - First Class Delivered,Skillable,2024-04-18
+Instructor Recognition - First Student Reached,Skillable,2024-04-18
+GitHub Foundations,GitHub,2024-01-18
+Copilot for M365 Achiever Badge - Foundational,Microsoft AI Business Solutions Enablement,2024-01-15
+Microsoft Global Hackathon 2023,The Microsoft Garage,2023-08-23
+GitHub Administration,GitHub,2023-08-04
+FinOps Certified Practitioner,The Linux Foundation,2023-05-30
+Microsoft Most Valuable Professional (MVP) Alumni,Microsoft Most Valuable Professionals Program,2023-05-15
+Microsoft Certified Trainer 2023-2024,Microsoft,2023-01-27
+Kusto Detective Agency - Case #1 Badge,Microsoft Azure Data Explorer,2022-11-15
+Kusto Detective Agency - Case #2 Badge,Microsoft Azure Data Explorer,2022-11-15
+Kusto Detective Agency - Onboarding,Microsoft Azure Data Explorer,2022-11-15
 STEM Ambassador 15 hours of engagement 2021/2022,STEM Learning,2022-10-19
-Microsoft Certified Trainer 2022-2023,Microsoft,2022-06-24
-Social Responsibility Champ Silver,Microsoft Customer Service and Support,2022-04-29
-Onboarding Buddy Gold,Microsoft Customer Service and Support,2022-04-09
-"Microsoft Certified: Security, Compliance, and Identity Fundamentals",Microsoft,2021-12-16
-"OpenHack: Security, Compliance, and Identity",Microsoft OpenHack,2021-10-07
-Microsoft Certified: Azure Data Fundamentals,Microsoft,2021-07-09
-Microsoft Certified Trainer 2021-2022,Microsoft,2021-06-24
-Microsoft 365 SMB Sales Specialist,Microsoft 365 Partner Marketing,2021-03-09
-Microsoft Certified: Azure AI Fundamentals,Microsoft,2021-02-15
-MTA: Introduction to Programming Using Python - Certified 2021,Microsoft,2021-02-02
-OpenHack: Migrating Microsoft Workloads to Azure,Microsoft OpenHack,2020-10-22
-Microsoft Certified Trainer 2020-2021,Microsoft,2020-06-23
-Microsoft Certified: Dynamics 365 Fundamentals,Microsoft,2020-06-02
-Microsoft Certified: Power Platform Fundamentals,Microsoft,2020-03-20
-Prosci® Certified Change Practitioner,Prosci,2019-11-13
-Accessibility in Action,Microsoft Accessibility,2019-10-20
+Collaborator - Azure Architecture Center,Microsoft MVP and Student Ambassadors Communities,2022-10-02
+AZ-400: Designing and Implementing Microsoft DevOps Solutions,Microsoft,2022-09-23
+Microsoft Certified Trainer 2022-2023,Microsoft,2022-01-27
+MCE: Microsoft Certified Educator,Microsoft,2021-07-28
+Event Speaker Gold,Microsoft Customer Service and Support,2021-07-08
+External User Group Gold,Microsoft Customer Service and Support,2021-07-08
+Evangelist - Cloud Adoption Framework for Azure,Microsoft MVP and Student Ambassadors Communities,2021-06-30
+Collaborator - Cloud Adoption Framework for Azure,Microsoft MVP and Student Ambassadors Communities,2021-04-20
+Evangelist - Cloud Adoption Framework for Azure,Microsoft MVP and Student Ambassadors Communities,2021-04-20
+"Microsoft Certified: Security, Compliance, and Identity Fundamentals",Microsoft,2021-04-19
+Microsoft Certified Trainer 2021-2022,Microsoft,2021-01-27
+Microsoft Certified: Azure Data Fundamentals,Microsoft,2020-07-15
+Microsoft Certified: Azure AI Fundamentals,Microsoft,2020-07-09
+Event Speaker Gold,Microsoft Customer Service and Support,2020-02-29
+Microsoft Certified: Power Platform Fundamentals,Microsoft,2020-02-21
+Microsoft Certified Trainer 2020-2021,Microsoft,2020-01-26
+Accessibility in Action,Microsoft Accessibility,2019-09-29
+External User Group Gold,Microsoft Customer Service and Support,2019-02-15
 Microsoft 365 Certified: Fundamentals,Microsoft,2019-02-06
-Mentor Silver,Microsoft Customer Service and Support,2019-01-09
-Microsoft Certified: Azure Fundamentals,Microsoft,2019-01-03
-Event Speaker Silver,Microsoft Customer Service and Support,2018-05-02
-Microsoft Global Challenger,Microsoft Global Challenger,2017-11-15
-Exam 533: Implementing Microsoft Azure Infrastructure Solutions,Microsoft,2017-05-24
-MCSE: Cloud Platform and Infrastructure — Certified 2017,Microsoft,2017-05-24
-MCSE: Cloud Platform and Infrastructure — Certified 2016,Microsoft,2016-09-25
-Exam 346: Managing Office 365 Identities and Requirements,Microsoft,2014-12-05
-Exam 347: Enabling Office 365 Services,Microsoft,2014-12-06
-MCSA: Office 365 - Certified 2016,Microsoft,2014-12-06
-Exam 417: Upgrading Your Skills to MCSA Windows Server 2012,Microsoft,2014-01-29
-MCSA: Windows Server 2012 - Certified 2016,Microsoft,2014-01-29
-Exam 246: Monitoring and Operating a Private Cloud with System Center 2012,Microsoft,2013-01-26
+Microsoft Certified: Azure Fundamentals,Microsoft,2019-01-04
+Exam 535: Architecting Microsoft Azure Solutions,Microsoft,2018-11-29
+MCSA: Cloud Platform - Certified 2018,Microsoft,2018-11-29
+AZ-300 Microsoft Azure Architect Technologies,Microsoft,2018-11-13
+Event Speaker Silver,Microsoft Customer Service and Support,2018-08-30
+Microsoft Global Challenger,Microsoft Global Challenger,2018-05-29
+Exam 533: Implementing Microsoft Azure Infrastructure Solutions,Microsoft,2018-04-17
+MCSE: Cloud Platform and Infrastructure — Certified 2018,Microsoft,2018-04-17
+Exam 413: Designing and Implementing a Server Infrastructure,Microsoft,2014-12-15
+Exam 417: Upgrading Your Skills to MCSA Windows Server 2012,Microsoft,2014-09-22
+MCSA: Windows Server 2012 - Certified 2016,Microsoft,2014-09-22
